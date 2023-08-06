@@ -12,60 +12,60 @@
     </UserControl.DataContext>
     <Canvas>
         <Line 
-            X1="{Binding myPentagram.A.X}"
-            Y1="{Binding myPentagram.A.Y}"
-            X2="{Binding myPentagram.B.X}"
-            Y2="{Binding myPentagram.B.Y}"
+            X1="{Binding Pentagram.A.X}"
+            Y1="{Binding Pentagram.A.Y}"
+            X2="{Binding Pentagram.B.X}"
+            Y2="{Binding Pentagram.B.Y}"
             Stroke="Black"/>
         <Line 
-            X1="{Binding myPentagram.B.X}"
-            Y1="{Binding myPentagram.B.Y}"
-            X2="{Binding myPentagram.C.X}"
-            Y2="{Binding myPentagram.C.Y}"
+            X1="{Binding Pentagram.B.X}"
+            Y1="{Binding Pentagram.B.Y}"
+            X2="{Binding Pentagram.C.X}"
+            Y2="{Binding Pentagram.C.Y}"
             Stroke="Black"/>
         <Line 
-            X1="{Binding myPentagram.C.X}"
-            Y1="{Binding myPentagram.C.Y}"
-            X2="{Binding myPentagram.D.X}"
-            Y2="{Binding myPentagram.D.Y}"
+            X1="{Binding Pentagram.C.X}"
+            Y1="{Binding Pentagram.C.Y}"
+            X2="{Binding Pentagram.D.X}"
+            Y2="{Binding Pentagram.D.Y}"
             Stroke="Black"/>
         <Line 
-            X1="{Binding myPentagram.D.X}"
-            Y1="{Binding myPentagram.D.Y}"
-            X2="{Binding myPentagram.E.X}"
-            Y2="{Binding myPentagram.E.Y}"
+            X1="{Binding Pentagram.D.X}"
+            Y1="{Binding Pentagram.D.Y}"
+            X2="{Binding Pentagram.E.X}"
+            Y2="{Binding Pentagram.E.Y}"
             Stroke="Black"/>
         <Line 
-            X1="{Binding myPentagram.E.X}"
-            Y1="{Binding myPentagram.E.Y}"
-            X2="{Binding myPentagram.A.X}"
-            Y2="{Binding myPentagram.A.Y}"
+            X1="{Binding Pentagram.E.X}"
+            Y1="{Binding Pentagram.E.Y}"
+            X2="{Binding Pentagram.A.X}"
+            Y2="{Binding Pentagram.A.Y}"
             Stroke="Black"/>
 
         <Line 
             X1="0"
             Y1="0"
-            X2="{Binding myParameters.Width}"
+            X2="{Binding Parameters.Width}"
             Y2="0"
             Stroke="LightGray"
             StrokeDashArray="6, 2"/>
         <Line 
-            X1="{Binding myParameters.Width}"
+            X1="{Binding Parameters.Width}"
             Y1="0"
-            X2="{Binding myParameters.Width}"
-            Y2="{Binding myParameters.Height}"
+            X2="{Binding Parameters.Width}"
+            Y2="{Binding Parameters.Height}"
             Stroke="LightGray"
             StrokeDashArray="6, 2"/>
         <Line 
-            X1="{Binding myParameters.Width}"
-            Y1="{Binding myParameters.Height}"
+            X1="{Binding Parameters.Width}"
+            Y1="{Binding Parameters.Height}"
             X2="0"
-            Y2="{Binding myParameters.Height}"
+            Y2="{Binding Parameters.Height}"
             Stroke="LightGray"
             StrokeDashArray="6, 2"/>
         <Line 
             X1="0"
-            Y1="{Binding myParameters.Height}"
+            Y1="{Binding Parameters.Height}"
             X2="0"
             Y2="0"
             Stroke="LightGray"
@@ -73,8 +73,8 @@
         <Line 
             X1="0"
             Y1="0"
-            X2="{Binding myParameters.Width}"
-            Y2="{Binding myParameters.Height}"
+            X2="{Binding Parameters.Width}"
+            Y2="{Binding Parameters.Height}"
             Stroke="Green"
             StrokeDashArray="6, 2"/>
     </Canvas>

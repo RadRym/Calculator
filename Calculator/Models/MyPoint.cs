@@ -14,28 +14,28 @@ namespace Calculator.Models
             X = x; 
             Y = y;
         }
-        private double _x {  get; set; }
-        private double _y { get; set; }
+        private double x {  get; set; }
+        private double y { get; set; }
         public double X
         {
-            get { return _x; }
+            get { return x; }
             set
             {
-                if (_x != value)
+                if (x != value)
                 {
-                    _x = value;
+                    x = value;
                     OnPropertyChanged("X");
                 }
             }
         }
         public double Y
         {
-            get { return _y; }
+            get { return y; }
             set
             {
-                if (_y != value)
+                if (y != value)
                 {
-                    _y = value;
+                    y = value;
                     OnPropertyChanged("Y");
                 }
             }

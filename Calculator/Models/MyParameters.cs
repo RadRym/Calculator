@@ -11,9 +11,12 @@ namespace Calculator.Models
         private float angle = 45;
         private float edgeA;
         private float edgeB;
+        private float filletEdgeLength = 0;
+        private MyFillet filletInstance;
 
         public float Diagonal => (float)Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
-        public float CalulatedAngle => (float)(Math.Atan(Height / Width) * (180 / Math.PI));
+        public float CalculatedAngle => (float)(Math.Atan(Height / Width) * (180 / Math.PI));
+
         public MyParameters()
         {
             width = CalculateNewWidthBasedOnDiagonalLength();
@@ -21,86 +24,8 @@ namespace Calculator.Models
             edgeA = width;
             edgeB = height;
         }
-        private void UpdatePropertiesBasedOnAngle()
-        {
-            Width = CalculateNewWidthBasedOnDiagonalLength();
-            Height = CalculateNewHeightBasedOnDiagonalLength();
-            NotifyPropertyChanged(nameof(Diagonal));
-            NotifyPropertyChanged(nameof(CalulatedAngle));
-            UpdateEdges();
-            UpdateSketch();
-        }
-        private void UpdatePropertiesBasedOnDiagonalLength()
-        {
-            Width = CalculateNewWidthBasedOnDiagonalLength();
-            Height = CalculateNewHeightBasedOnDiagonalLength();
-            NotifyPropertyChanged(nameof(Diagonal));
-            NotifyPropertyChanged(nameof(CalulatedAngle));
-            UpdateEdges();
-            UpdateSketch();
-        }
-        private void UpdatePropertiesBasedOnWidth()
-        {
-            Height = CalculateNewHeightBasedOnWidth();
-            DiagonalLength = CalculateNewDiagonalLengthBasedOnWidthAndHeigth();
-            NotifyPropertyChanged(nameof(Diagonal));
-            NotifyPropertyChanged(nameof(CalulatedAngle));
-            UpdateEdges();
-            UpdateSketch();
-        }
-        private void UpdatePropertiesBasedOnHeight()
-        {
-            Width = CalculateNewWidthBasedOnHeight();
-            DiagonalLength = CalculateNewDiagonalLengthBasedOnWidthAndHeigth();
-            NotifyPropertyChanged(nameof(Diagonal));
-            NotifyPropertyChanged(nameof(CalulatedAngle));
-            UpdateEdges();
-            UpdateSketch();
-        }
-        private void UpdatePropertiesBasedOnEdgeA()
-        {
-            UpdateSketch();
-        }
-        private void UpdatePropertiesBasedOnEdgeB()
-        {
-            UpdateSketch();
-        }
-        private void UpdateEdges()
-        {
-            if(Width < EdgeA)
-                EdgeA = width;
-            if (Height < EdgeB)
-                EdgeB = height;
-        }
-        private void UpdatePropertiesBasedFillet()
-        {
-            UpdateSketch();
-        }
-        private float CalculateNewWidthBasedOnDiagonalLength()
-        {
-            float newWidth = (float)(DiagonalLength * Math.Cos(Angle.ToRad()));
-            return newWidth;
-        }
-        private float CalculateNewHeightBasedOnDiagonalLength()
-        {
-            float newHeigth = (float)(DiagonalLength * Math.Sin(Angle.ToRad()));
-            return newHeigth;
-        }
-        private float CalculateNewWidthBasedOnHeight()
-        {
-            float newWidth = (float)(Height / Math.Tan(Angle.ToRad()));
-            return newWidth;
-        }
-        private float CalculateNewHeightBasedOnWidth()
-        {
-            float newHeigth = (float)(Width * Math.Tan(Angle.ToRad()));
-            return newHeigth;
-        }
-        private float CalculateNewDiagonalLengthBasedOnWidthAndHeigth()
-        {
-            float newDiagonal = (float)Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
-            return newDiagonal;
-        }
+
+        #region Properties
 
         public float Width
         {
@@ -111,6 +36,7 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnWidth();
             }
         }
+
         public float Height
         {
             get => height;
@@ -120,6 +46,7 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnHeight();
             }
         }
+
         public float DiagonalLength
         {
             get => diagonalLength;
@@ -129,6 +56,7 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnDiagonalLength();
             }
         }
+
         public float Angle
         {
             get => angle;
@@ -138,6 +66,7 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnAngle();
             }
         }
+
         public float EdgeA
         {
             get => edgeA;
@@ -147,6 +76,7 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnEdgeA();
             }
         }
+
         public float EdgeB
         {
             get => edgeB;
@@ -156,5 +86,149 @@ namespace Calculator.Models
                     UpdatePropertiesBasedOnEdgeB();
             }
         }
+
+        public float FilletEdgeLength
+        {
+            get => filletEdgeLength;
+            set
+            {
+                if (SetProperty(ref filletEdgeLength, value))
+                {
+                    FilletInstance.Angle = Angle;
+                    FilletInstance.FilletLength = FilletEdgeLength;
+                    FilletInstance.UpdatePropertiesBasedOnFilletLength();
+                    UpdateSketch();
+                }
+            }
+        }
+
+        public MyFillet FilletInstance
+        {
+            get
+            {
+                if (filletInstance == null)
+                    InitializeFilletInstance();
+
+                return filletInstance;
+            }
+            set
+            {
+                filletInstance = value;
+                OnPropertyChanged(nameof(FilletInstance));
+            }
+        }
+
+        #endregion Properties
+
+        #region Update Methods
+
+        private void UpdatePropertiesBasedOnAngle()
+        {
+            Width = CalculateNewWidthBasedOnDiagonalLength();
+            Height = CalculateNewHeightBasedOnDiagonalLength();
+            NotifyPropertyChanged(nameof(Diagonal));
+            NotifyPropertyChanged(nameof(CalculatedAngle));
+            UpdateFilletProperties();
+            UpdateEdges();
+            UpdateSketch();
+        }
+
+        private void UpdatePropertiesBasedOnDiagonalLength()
+        {
+            Width = CalculateNewWidthBasedOnDiagonalLength();
+            Height = CalculateNewHeightBasedOnDiagonalLength();
+            NotifyPropertyChanged(nameof(Diagonal));
+            NotifyPropertyChanged(nameof(CalculatedAngle));
+            UpdateFilletProperties();
+            UpdateEdges();
+            UpdateSketch();
+        }
+
+        private void UpdatePropertiesBasedOnWidth()
+        {
+            Height = CalculateNewHeightBasedOnWidth();
+            DiagonalLength = CalculateNewDiagonalLengthBasedOnWidthAndHeight();
+            NotifyPropertyChanged(nameof(Diagonal));
+            NotifyPropertyChanged(nameof(CalculatedAngle));
+            UpdateFilletProperties();
+            UpdateEdges();
+            UpdateSketch();
+        }
+
+        private void UpdatePropertiesBasedOnHeight()
+        {
+            Width = CalculateNewWidthBasedOnHeight();
+            DiagonalLength = CalculateNewDiagonalLengthBasedOnWidthAndHeight();
+            NotifyPropertyChanged(nameof(Diagonal));
+            NotifyPropertyChanged(nameof(CalculatedAngle));
+            UpdateFilletProperties();
+            UpdateEdges();
+            UpdateSketch();
+        }
+
+        private void InitializeFilletInstance()
+        {
+            FilletInstance = new MyFillet(Angle, FilletEdgeLength);
+            FilletInstance.UpdatePropertiesBasedOnFilletLength();
+            UpdateSketch();
+        }
+
+        private void UpdatePropertiesBasedOnEdgeA()
+        {
+            UpdateSketch();
+        }
+
+        private void UpdatePropertiesBasedOnEdgeB()
+        {
+            UpdateSketch();
+        }
+
+        private void UpdateEdges()
+        {
+            if (Width < EdgeA)
+                EdgeA = Width;
+
+            if (Height < EdgeB)
+                EdgeB = Height;
+        }
+
+        private float CalculateNewWidthBasedOnDiagonalLength()
+        {
+            float newWidth = (float)(DiagonalLength * Math.Cos(Angle.ToRad()));
+            return newWidth;
+        }
+
+        private float CalculateNewHeightBasedOnDiagonalLength()
+        {
+            float newHeight = (float)(DiagonalLength * Math.Sin(Angle.ToRad()));
+            return newHeight;
+        }
+
+        private float CalculateNewWidthBasedOnHeight()
+        {
+            float newWidth = (float)(Height / Math.Tan(Angle.ToRad()));
+            return newWidth;
+        }
+
+        private float CalculateNewHeightBasedOnWidth()
+        {
+            float newHeight = (float)(Width * Math.Tan(Angle.ToRad()));
+            return newHeight;
+        }
+
+        private float CalculateNewDiagonalLengthBasedOnWidthAndHeight()
+        {
+            float newDiagonal = (float)Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
+            return newDiagonal;
+        }
+
+        private void UpdateFilletProperties()
+        {
+            FilletInstance.Angle = Angle;
+            FilletInstance.FilletLength = FilletEdgeLength;
+            FilletInstance.UpdatePropertiesBasedOnFilletLength();
+        }
+
+        #endregion Update Methods
     }
 }
