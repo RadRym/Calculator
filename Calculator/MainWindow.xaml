@@ -1,0 +1,56 @@
+﻿<Window x:Class="Calculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculator" 
+        xmlns:views="clr-namespace:Calculator.Views" 
+        xmlns:viewmodels="clr-namespace:Calculator.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
+
+    <StackPanel Orientation="Horizontal">
+        <StackPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="Angle: " VerticalAlignment="Center"  Width="70"/>
+                <TextBox Text="{Binding ElementName=Angle, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="90" IsSnapToTickEnabled="True" Name="Angle" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.Angle, Mode=TwoWay}"/>
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="Diagonal: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=Diagonal, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="1500" IsSnapToTickEnabled="True" Name="Diagonal" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.DiagonalLength, Mode=TwoWay}"/>
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="Width: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=Width, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="1000" IsSnapToTickEnabled="True" Name="Width" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.Width, Mode=TwoWay}" />
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="Heigth: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=Heigth, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="1000" IsSnapToTickEnabled="True" Name="Heigth" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.Height, Mode=TwoWay}"/>
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="EdgeA: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=EdgeA, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="{Binding ElementName=Width, Path=Value, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Name="EdgeA" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.EdgeA, Mode=TwoWay}"/>
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="EdgeB: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=EdgeB, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="{Binding ElementName=Heigth, Path=Value, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Name="EdgeB" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.EdgeB, Mode=TwoWay}"/>
+            </DockPanel>
+            <DockPanel VerticalAlignment="Center" Margin="5">
+                <Label Content="Fillet: " VerticalAlignment="Center" Width="70"/>
+                <TextBox Text="{Binding ElementName=Fillet, Path=Value, UpdateSourceTrigger=PropertyChanged}" Width="40" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Slider Maximum="{Binding ElementName=Diagonal, Path=Value, UpdateSourceTrigger=PropertyChanged}" IsSnapToTickEnabled="True" Name="Fillet" MinWidth="200" VerticalAlignment="Center" Value="{Binding myParameters.FilletLength, Mode=TwoWay}"/>
+            </DockPanel>
+        </StackPanel>
+        <views:SketchView Margin ="5"/>
+    </StackPanel>
+</Window>
